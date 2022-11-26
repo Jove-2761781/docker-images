@@ -14,10 +14,11 @@ monitor() {
     tail -F -n 0 $1 | while read line; do echo -e "$2: $line"; done
 }
 
-
-trap_stop_db() {
-	trap "echo_red 'Caught SIGTERM signal, shutting down...'; stop" SIGTERM
-	trap "echo_red 'Caught SIGINT signal, shutting down...'; stop" SIGINT
+# SIGTERM handler
+function _term() {
+   echo "Stopping container."
+   echo "SIGTERM received, shutting down database!"
+   stop
 }
 
 start_db() {
@@ -91,8 +92,24 @@ change_datapump_dir () {
 	while read line; do echo -e "sqlplus: $line"; done
 }
 
+
+############# MAIN ################
+
+# Set SIGTERM handler
+trap _term SIGTERM 
+
 echo "Checking shared memory..."
 df -h | grep "Mounted on" && df -h | grep -E --color "^.*/dev/shm" || echo "Shared memory is not mounted."
+
+# Check whether container has enough memory
+if [ "$(df -Pk /dev/shm | tail -n 1 | awk '{print $2}')" -lt 1048576 ]; then
+   echo "Error: The system doesn't have enough memory allocated."
+   echo "A database 11g needs at least 1 GB of shared memory (/dev/shm)."
+   echo "You currently only have $(df -Pk /dev/shm | tail -n 1 | awk '{print $2/1024}') MB allocated to the system."
+   exit 1
+fi
+
+
 if [ ! -f $spfile ]; then
   create_db
   stop

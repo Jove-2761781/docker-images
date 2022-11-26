@@ -14,9 +14,8 @@ deps () {
     elfutils-libelf-devel glibc glibc-common glibc-devel gcc gcc-c++ libaio libaio.i686 libaio-devel \
 	libaio-devel.i686 libgcc libstdc++ libstdc++.i686 libstdc++-devel libstdc++-devel.i686 make sysstat unixODBC unixODBC-devel
 	
-	curl http://www.rpmfind.net/linux/epel/7/x86_64/Packages/r/rlwrap-0.45.2-2.el7.x86_64.rpm -o /tmp/rlwrap-0.45.2-2.el7.x86_64.rpm
-	yum -y localinstall /tmp/rlwrap-0.45.2-2.el7.x86_64.rpm
-	rm -f /tmp/rlwrap-0.45.2-2.el7.x86_64.rpm
+	yum -y localinstall https://mirrors.cloud.tencent.com/epel/6/x86_64/Packages/r/rlwrap-0.42-1.el6.x86_64.rpm
+	rm -rf /var/tmp/*
 	
 	yum clean all
 }
@@ -29,11 +28,13 @@ users () {
 	useradd -u 500 -g oinstall -G dba oracle
 	echo "oracle:oracle" | chpasswd
 	echo "root:welcome" | chpasswd
-	sed -i '$a\ession\trequired\tpam_limits.so' /etc/pam.d/login
+	
 	mkdir -p /u01/app/oracle
 	mkdir -p /u01/app/oraInventory
 	chown -R oracle:oinstall /u01
 	chmod -R 775 /u01
+
+	sed -i '$a\ession\trequired\tpam_limits.so' /etc/pam.d/login
 	cat /assets/profile >> ~oracle/.bash_profile
 	cat /assets/profile >> ~oracle/.bashrc
 }

@@ -4,9 +4,6 @@ set -o errexit
 
 source /assets/colorecho
 
-trap "echo_red '******* ERROR: Something went wrong.'; exit 1" SIGTERM
-trap "echo_red '******* Caught SIGINT signal. Stopping...'; exit 2" SIGINT
-
 if [ ! -d "/install/database" ]; then
 	echo_red "Installation files not found. Unzip installation files into mounted(/install) folder"
 	exit 1
