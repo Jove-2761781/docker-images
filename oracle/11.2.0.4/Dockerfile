@@ -4,7 +4,7 @@
 # Run: 
 #      $ docker build -t jove2761781/database:11.2.0.4-ee . 
 #
-FROM oraclelinux:7.9
+FROM oraclelinux:6.10
 LABEL author="jove2761781"
 
 ENV s_ORACLE_BASE=/u01/app/oracle \
