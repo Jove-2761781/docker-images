@@ -6,7 +6,6 @@ source /assets/colorecho
 
 if [ ! -f "/etc/oratab" ]; then
 	echo_yellow "Database is not installed. Installing..."
-	/assets/setupSystemEnv.sh
 	/assets/installDB.sh
 fi
 

@@ -13,7 +13,7 @@ ENV s_ORACLE_BASE=/u01/app/oracle \
     s_ORACLE_SID=orcl
 
 ADD assets /assets
-RUN chmod -R 755 /assets && /assets/setup.sh
+RUN chmod -R 755 /assets && /assets/setupSystemEnv.sh
 
 EXPOSE 1521
 EXPOSE 8080
