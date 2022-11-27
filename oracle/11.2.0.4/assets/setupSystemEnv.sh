@@ -7,13 +7,13 @@ source /assets/colorecho
 # Install prerequisites packages
 installPackages () {
 	echo "Installing dependencies"
-	yum -y install binutils compat-libstdc++-33 compat-libstdc++-33.i686 ksh elfutils-libelf \
+	yum -y install binutils compat-libstdc++-33 compat-libstdc++-33.i686 ksh elfutils-libelf unzip \
     elfutils-libelf-devel glibc glibc-common glibc-devel gcc gcc-c++ libaio libaio.i686 libaio-devel \
 	libaio-devel.i686 libgcc libstdc++ libstdc++.i686 libstdc++-devel libstdc++-devel.i686 make sysstat unixODBC unixODBC-devel
 	yum -y localinstall https://mirrors.cloud.tencent.com/epel/6/x86_64/Packages/r/rlwrap-0.42-1.el6.x86_64.rpm
 	yum clean all
 	rm -rf /var/tmp/*
-	rm -rf /var/cache/yum
+	rm -rf /var/cache/yum/*
 }
 
 # Create database users, groups and set privileges, environment.
@@ -25,21 +25,22 @@ createUsers () {
 	echo "oracle:oracle" | chpasswd
 	echo "root:welcome" | chpasswd
 	
-	mkdir -p /u01/app/oracle
-	mkdir -p /u01/app/oraInventory
-	chown -R oracle:oinstall /u01
-	chmod -R 775 /u01
+	mkdir -p $s_ORACLE_BASE
+	mkdir -p $s_ORACLE_INVENTORY
+	chown -R oracle:oinstall $(dirname $s_ORACLE_BASE)
+	chmod -R 775 $(dirname $s_ORACLE_BASE)
 
-	cat >> ~oracle/.bashrc << 'EOF'
-export ORACLE_BASE=/u01/app/oracle
-export ORACLE_SID=orcl
-export ORACLE_HOME=$ORACLE_BASE/product/11.2.0/db_1
-export ORACLE_INVENTORY=/u01/app/oraInventory
+	cat >> ~oracle/.bashrc << EOF
+export ORACLE_BASE=$s_ORACLE_BASE
+export ORACLE_HOME=$s_ORACLE_HOME
+export ORACLE_SID=$s_ORACLE_SID
+export ORACLE_INVENTORY=$s_ORACLE_INVENTORY
+EOF
+    cat >> ~oracle/.bashrc << 'EOF'
 export PATH=$ORACLE_HOME/bin:$PATH
 export LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib
 export CLASSPATH=$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib
 export NLS_DATE_FORMAT="YYYY-MM-DD HH24:MI:SS"
-export ORACLE_HOME_LISTNER=$ORACLE_HOME
 export TNS_ADMIN=$ORACLE_HOME/network/admin
 alias sqlplus='rlwrap sqlplus'
 alias rman='rlwrap rman'
@@ -75,6 +76,15 @@ net.ipv4.conf.default.rp_filter = 2
 fs.aio-max-nr = 1048576
 net.ipv4.ip_local_port_range = 9000 65500
 EOF
+}
+
+ModifyRSP () {
+	sed -i "s|#ORACLE_HOSTNAME#|$HOSTNAME|" /assets/db_install.rsp
+	sed -i "s|#ORACLE_INVENTORY#|$s_ORACLE_INVENTORY|" /assets/db_install.rsp
+	sed -i "s|#ORACLE_BASE#|$s_ORACLE_BASE|" /assets/db_install.rsp
+	sed -i "s|#ORACLE_HOME#|$s_ORACLE_HOSTNAME|" /assets/db_install.rsp
+	sed -i "s|#ORACLE_BASE#|$s_ORACLE_BASE|" /assets/dbca.rsp
+	sed -i "s|#ORACLE_SID#|$s_ORACLE_SID|" /assets/dbca.rsp
 }
 
 # Main

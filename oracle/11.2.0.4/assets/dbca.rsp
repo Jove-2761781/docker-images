@@ -75,7 +75,7 @@ OPERATION_TYPE = "createDatabase"
 # Default value : None
 # Mandatory     : Yes
 #-----------------------------------------------------------------------------
-GDBNAME = "orcl"
+GDBNAME = "#ORACLE_SID#"
 
 #-----------------------------------------------------------------------------
 # Name          : DATABASECONFTYPE
@@ -202,7 +202,7 @@ DATABASECONFTYPE  = "SI"
 # Default value : <db_name> specified in GDBNAME
 # Mandatory     : No
 #-----------------------------------------------------------------------------
-SID = "orcl"
+SID = "#ORACLE_SID#"
 
 #-----------------------------------------------------------------------------
 # Name          : CREATEASCONTAINERDATABASE
@@ -464,7 +464,7 @@ SYSTEMPASSWORD = "oracle"
 # Default value : $ORACLE_BASE/oradata
 # Mandatory     : No
 #-----------------------------------------------------------------------------
-DATAFILEDESTINATION=/u01/app/oracle/oradata
+DATAFILEDESTINATION=#ORACLE_BASE#/oradata
 
 #-----------------------------------------------------------------------------
 # Name          : RECOVERYAREADESTINATION
@@ -474,7 +474,7 @@ DATAFILEDESTINATION=/u01/app/oracle/oradata
 # Default value : $ORACLE_BASE/flash_recovery_area
 # Mandatory     : No
 #-----------------------------------------------------------------------------
-RECOVERYAREADESTINATION=/u01/app/oracle/oradata
+RECOVERYAREADESTINATION=#ORACLE_BASE#/oradata
 
 #-----------------------------------------------------------------------------
 # Name          : STORAGETYPE

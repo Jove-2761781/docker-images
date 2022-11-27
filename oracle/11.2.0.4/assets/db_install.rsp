@@ -34,7 +34,7 @@ oracle.install.option=INSTALL_DB_SWONLY
 # first hostname found on the system. (e.g., for systems with multiple hostnames 
 # and network interfaces)
 #-------------------------------------------------------------------------------
-ORACLE_HOSTNAME=localhost
+ORACLE_HOSTNAME=#ORACLE_HOSTNAME#
 
 #-------------------------------------------------------------------------------
 # Specify the Unix group to be set for the inventory directory.  
@@ -46,7 +46,7 @@ UNIX_GROUP_NAME=oinstall
 # This is an optional parameter if installing on
 # Windows based Operating System.
 #-------------------------------------------------------------------------------
-INVENTORY_LOCATION=/u01/app/oraInventory
+INVENTORY_LOCATION=#ORACLE_INVENTORY#
 
 #-------------------------------------------------------------------------------
 # Specify the languages in which the components will be installed.             
@@ -88,12 +88,12 @@ SELECTED_LANGUAGES=en,zh_CN
 #------------------------------------------------------------------------------
 # Specify the complete path of the Oracle Home.
 #------------------------------------------------------------------------------
-ORACLE_HOME=/u01/app/oracle/product/11.2.0/db_1
+ORACLE_HOME=#ORACLE_HOME#
 
 #------------------------------------------------------------------------------
 # Specify the complete path of the Oracle Base. 
 #------------------------------------------------------------------------------
-ORACLE_BASE=/u01/app/oracle
+ORACLE_BASE=#ORACLE_BASE#
 
 #------------------------------------------------------------------------------
 # Specify the installation edition of the component.                        
