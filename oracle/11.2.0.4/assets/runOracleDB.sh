@@ -9,12 +9,12 @@ alert_log="$ORACLE_BASE/diag/rdbms/$ORACLE_SID/$ORACLE_SID/trace/alert_$ORACLE_S
 spfile=$ORACLE_HOME/dbs/spfile$ORACLE_SID.ora
 
 # monitor $logfile
-monitor() {
+monitor () {
     tail -F -n 0 $1 | while read line; do echo -e "$2: $line"; done
 }
 
 # SIGINT handler
-function _int() {
+function _int () {
    echo "Stopping container."
    echo "SIGINT received, shutting down database!"
    sqlplus / as sysdba <<EOF
@@ -25,7 +25,7 @@ EOF
 }
 
 # SIGTERM handler
-function _term() {
+function _term () {
    echo "Stopping container."
    echo "SIGTERM received, shutting down database!"
    sqlplus / as sysdba <<EOF
@@ -35,7 +35,7 @@ EOF
    lsnrctl stop
 }
 
-startDB() {
+startDB () {
 	echo_yellow "Starting listener..."
 	lsnrctl start | while read line; do echo -e "lsnrctl: $line"; done
 	echo_yellow "Starting database..."
@@ -55,7 +55,7 @@ startDB() {
 	done
 }
 
-createDB() {
+createDB () {
 	echo_yellow "Database does not exist. Creating database..."
 	date "+%F %T"
 	echo "START NETCA"

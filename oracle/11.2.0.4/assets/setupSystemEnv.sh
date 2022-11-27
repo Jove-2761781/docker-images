@@ -78,7 +78,7 @@ net.ipv4.ip_local_port_range = 9000 65500
 EOF
 }
 
-ModifyRSP () {
+modifyRSP () {
 	sed -i "s|#ORACLE_HOSTNAME#|$HOSTNAME|" /assets/db_install.rsp
 	sed -i "s|#ORACLE_INVENTORY#|$s_ORACLE_INVENTORY|" /assets/db_install.rsp
 	sed -i "s|#ORACLE_BASE#|$s_ORACLE_BASE|" /assets/db_install.rsp
@@ -91,3 +91,4 @@ ModifyRSP () {
 installPackages
 createUsers
 resouceLimit
+modifyRSP
