@@ -81,15 +81,12 @@ setDatapumpDir () {
 
 
 # MAIN
-
 # Set SIGTERM SIGINT handler
 trap _term SIGTERM 
 trap _int SIGINT
 
-echo "Checking shared memory..."
-df -h | grep "Mounted on" && df -h | grep -E --color "^.*/dev/shm" || echo "Shared memory is not mounted."
-
 # Check whether container has enough memory
+echo "Checking shared memory..."
 if [ "$(df -Pk /dev/shm | tail -n 1 | awk '{print $2}')" -lt 0 ]; then
    echo "Error: The system doesn't have enough memory allocated."
    exit 1
