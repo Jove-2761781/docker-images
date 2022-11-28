@@ -51,16 +51,6 @@ resouceLimit () {
 	echo "Configuring system resource limit"
 	sed -i '$a\ession\trequired\tpam_limits.so' /etc/pam.d/login
 	cat > /etc/sysctl.d/for_oracle_sysctl.conf << 'EOF'
-oracle   soft   nofile    1024
-oracle   hard   nofile    65536
-oracle   soft   nproc    16384
-oracle   hard   nproc    16384
-oracle   soft   stack    10240
-oracle   hard   stack    32768
-oracle   hard   memlock    134217728
-oracle   soft   memlock    134217728
-EOF
-	cat > /etc/security/limits.d/for_oracle_limits.conf << 'EOF'
 fs.file-max = 6815744
 kernel.sem = 250 32000 100 128
 kernel.shmmni = 4096
@@ -75,6 +65,16 @@ net.ipv4.conf.all.rp_filter = 2
 net.ipv4.conf.default.rp_filter = 2
 fs.aio-max-nr = 1048576
 net.ipv4.ip_local_port_range = 9000 65500
+EOF
+	cat > /etc/security/limits.d/for_oracle_limits.conf << 'EOF'
+oracle   soft   nofile    1024
+oracle   hard   nofile    65536
+oracle   soft   nproc    16384
+oracle   hard   nproc    16384
+oracle   soft   stack    10240
+oracle   hard   stack    32768
+oracle   hard   memlock    134217728
+oracle   soft   memlock    134217728
 EOF
 }
 
