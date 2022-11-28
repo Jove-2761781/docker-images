@@ -73,8 +73,7 @@ setDatapumpDir () {
 	echo_green "Changing datapump dir to /datapump"
 	sqlplus / as sysdba <<-EOF |
 		create or replace directory data_pump_dir as '/datapump';
-		commit;
-		exit 0
+		exit;
 	EOF
 	while read line; do echo -e "sqlplus: $line"; done
 }
