@@ -7,7 +7,7 @@ Download database installation files from [Oracle site](http://www.oracle.com/te
 Run container and it will install oracle and create database:
 
 ```sh
-docker run --privileged --name oracle11g -p 1521:1521 -v <install_folder>:/install jove2761781/oracle-11g
+docker run --privileged --name oracle11g -p 1521:1521 -v <install_folder>:/install <image-id>
 ```
 Then you can commit this container to have installed and configured oracle database:
 ```sh
@@ -21,11 +21,12 @@ OS users:
 * oracle/oracle
 
 DB users:
-* SYS/oracle
+* sys/oracle
+* system/oracle
 
 Optionally you can map dpdump folder to easy upload dumps:
 ```sh
-docker run --privileged --name oracle11g -p 1521:1521 -v <install_folder>:/install -v <local_dpdump>:/u01/app/dpdump jove2761781/oracle-11g
+docker run --privileged --name oracle11g -p 1521:1521 -v <install_folder>:/install -v <local_dpdump>:/datapump <image-id>
 ```
 To execute impdp/expdp just use docker exec command:
 ```sh

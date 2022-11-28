@@ -82,7 +82,7 @@ modifyRSP () {
 	sed -i "s|#ORACLE_HOSTNAME#|$HOSTNAME|" /assets/db_install.rsp
 	sed -i "s|#ORACLE_INVENTORY#|$s_ORACLE_INVENTORY|" /assets/db_install.rsp
 	sed -i "s|#ORACLE_BASE#|$s_ORACLE_BASE|" /assets/db_install.rsp
-	sed -i "s|#ORACLE_HOME#|$s_ORACLE_HOSTNAME|" /assets/db_install.rsp
+	sed -i "s|#ORACLE_HOME#|$s_ORACLE_HOME|" /assets/db_install.rsp
 	sed -i "s|#ORACLE_BASE#|$s_ORACLE_BASE|" /assets/dbca.rsp
 	sed -i "s|#ORACLE_SID#|$s_ORACLE_SID|" /assets/dbca.rsp
 }
