@@ -12,5 +12,5 @@ fi
 echo_yellow "Installing Oracle Database 11g"
 
 su oracle -c "/install/database/runInstaller -silent -ignorePrereq -waitforcompletion -responseFile /assets/db_install.rsp"
-$s_ORACLE_INVENTORY/orainstRoot.sh
-$s_ORACLE_HOME/root.sh
+$ORACLE_INVENTORY/orainstRoot.sh
+$ORACLE_HOME/root.sh

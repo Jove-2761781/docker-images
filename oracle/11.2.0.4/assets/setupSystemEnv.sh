@@ -25,16 +25,16 @@ createUsers () {
 	echo "oracle:oracle" | chpasswd
 	echo "root:welcome" | chpasswd
 	
-	mkdir -p $s_ORACLE_BASE
-	mkdir -p $s_ORACLE_INVENTORY
-	chown -R oracle:oinstall $(dirname $s_ORACLE_BASE)
-	chmod -R 775 $(dirname $s_ORACLE_BASE)
+	mkdir -p $ORACLE_BASE
+	mkdir -p $ORACLE_INVENTORY
+	chown -R oracle:oinstall $(dirname $ORACLE_BASE)
+	chmod -R 775 $(dirname $ORACLE_BASE)
 
 	cat >> ~oracle/.bashrc << EOF
-export ORACLE_BASE=$s_ORACLE_BASE
-export ORACLE_HOME=$s_ORACLE_HOME
-export ORACLE_SID=$s_ORACLE_SID
-export ORACLE_INVENTORY=$s_ORACLE_INVENTORY
+export ORACLE_BASE=$ORACLE_BASE
+export ORACLE_HOME=$ORACLE_HOME
+export ORACLE_SID=$ORACLE_SID
+export ORACLE_INVENTORY=$ORACLE_INVENTORY
 EOF
     cat >> ~oracle/.bashrc << 'EOF'
 export PATH=$ORACLE_HOME/bin:$PATH
@@ -80,11 +80,11 @@ EOF
 
 modifyRSP () {
 	sed -i "s|#ORACLE_HOSTNAME#|$HOSTNAME|" /assets/db_install.rsp
-	sed -i "s|#ORACLE_INVENTORY#|$s_ORACLE_INVENTORY|" /assets/db_install.rsp
-	sed -i "s|#ORACLE_BASE#|$s_ORACLE_BASE|" /assets/db_install.rsp
-	sed -i "s|#ORACLE_HOME#|$s_ORACLE_HOME|" /assets/db_install.rsp
-	sed -i "s|#ORACLE_BASE#|$s_ORACLE_BASE|" /assets/dbca.rsp
-	sed -i "s|#ORACLE_SID#|$s_ORACLE_SID|" /assets/dbca.rsp
+	sed -i "s|#ORACLE_INVENTORY#|$ORACLE_INVENTORY|" /assets/db_install.rsp
+	sed -i "s|#ORACLE_BASE#|$ORACLE_BASE|" /assets/db_install.rsp
+	sed -i "s|#ORACLE_HOME#|$ORACLE_HOME|" /assets/db_install.rsp
+	sed -i "s|#ORACLE_BASE#|$ORACLE_BASE|" /assets/dbca.rsp
+	sed -i "s|#ORACLE_SID#|$ORACLE_SID|" /assets/dbca.rsp
 }
 
 # Main
