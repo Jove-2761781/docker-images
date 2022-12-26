@@ -85,7 +85,7 @@ modifyRSP () {
 	sed -i "s|#ORACLE_SID#|$ORACLE_SID|" /assets/dbca.rsp
 }
 
-chanageTZ () {
+changeTZ () {
 	mv /etc/localtime /etc/localtime.old
 	ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 }
@@ -95,4 +95,4 @@ installPackages
 createUsers
 resouceLimit
 modifyRSP
-chanageTZ
+changeTZ
