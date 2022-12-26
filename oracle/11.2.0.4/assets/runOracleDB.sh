@@ -35,6 +35,15 @@ EOF
    lsnrctl stop
 }
 
+modify_dbcaRSP () {
+	sed -i "s|#ORACLE_SID#|$ORACLE_SID|" /assets/dbca.rsp
+	sed -i "s|#CHARACTERSET#|$CHARACTERSET|" /assets/dbca.rsp
+	sed -i "s|#ORACLE_SID#|$ORACLE_SID|" ~oracle/.bashrc
+	sed -i "s|#ORACLE_BASE#|$ORACLE_BASE|" ~oracle/.bashrc
+	sed -i "s|#ORACLE_HOME#|$ORACLE_HOME|" ~oracle/.bashrc
+	sed -i "s|#ORACLE_INVENTORY#|$ORACLE_INVENTORY|" ~oracle/.bashrc
+}
+
 startDB () {
 	echo_yellow "Starting listener..."
 	lsnrctl start | while read line; do echo -e "lsnrctl: $line"; done
@@ -68,7 +77,6 @@ createDB () {
 	setDatapumpDir
 }
 
-
 setDatapumpDir () {
 	echo_green "Changing datapump dir to /datapump"
 	sqlplus / as sysdba <<-EOF |
@@ -95,6 +103,7 @@ monitor $alert_log alertlog &
 MON_ALERT_PID=$!
 
 if [ ! -f $spfile ]; then
+  modify_dbcaRSP
   createDB
 else
   startDB

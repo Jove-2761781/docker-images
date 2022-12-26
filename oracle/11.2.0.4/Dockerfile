@@ -10,7 +10,8 @@ LABEL author="jove2761781"
 ENV ORACLE_BASE=/u01/app/oracle \
     ORACLE_HOME=/u01/app/oracle/product/11.2.0/db_1 \
     ORACLE_INVENTORY=/u01/app/oraInventory \
-    ORACLE_SID=orcl
+    ORACLE_SID=orcl \
+    CHARACTERSET=ZHS16GBK
 
 ADD assets /assets
 RUN chmod -R 755 /assets && /assets/setupSystemEnv.sh

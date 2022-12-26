@@ -25,16 +25,16 @@ createUsers () {
 	echo "oracle:oracle" | chpasswd
 	echo "root:welcome" | chpasswd
 	
-	mkdir -p /u01/app/oracle
-	mkdir -p /u01/app/oraInventory
-	chown -R oracle:oinstall /u01/app
-	chmod -R 775 /u01/app
+	mkdir -p $ORACLE_BASE
+	mkdir -p $ORACLE_INVENTORY
+	chown -R oracle:oinstall $(dirname $ORACLE_BASE)
+	chmod -R 775 $(dirname $ORACLE_BASE)
 
 	cat >> ~oracle/.bashrc << 'EOF'
-export ORACLE_SID=orcl
-export ORACLE_BASE=/u01/app/oracle
-export ORACLE_HOME=/u01/app/oracle/product/11.2.0/db_1
-export ORACLE_INVENTORY=/u01/app/oraInventory
+export ORACLE_SID=#ORACLE_SID#
+export ORACLE_BASE=#ORACLE_BASE#
+export ORACLE_HOME=#ORACLE_HOME#
+export ORACLE_INVENTORY=#ORACLE_INVENTORY#
 export PATH=$ORACLE_HOME/bin:$PATH
 export LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib
 export CLASSPATH=$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib
@@ -76,15 +76,6 @@ oracle   soft   memlock    134217728
 EOF
 }
 
-modifyRSP () {
-	sed -i "s|#ORACLE_HOSTNAME#|$HOSTNAME|" /assets/db_install.rsp
-	sed -i "s|#ORACLE_INVENTORY#|$ORACLE_INVENTORY|" /assets/db_install.rsp
-	sed -i "s|#ORACLE_BASE#|$ORACLE_BASE|" /assets/db_install.rsp
-	sed -i "s|#ORACLE_HOME#|$ORACLE_HOME|" /assets/db_install.rsp	
-	sed -i "s|#ORACLE_BASE#|$ORACLE_BASE|" /assets/dbca.rsp
-	sed -i "s|#ORACLE_SID#|$ORACLE_SID|" /assets/dbca.rsp
-}
-
 changeTZ () {
 	mv /etc/localtime /etc/localtime.old
 	ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
@@ -94,5 +85,4 @@ changeTZ () {
 installPackages
 createUsers
 resouceLimit
-modifyRSP
 changeTZ

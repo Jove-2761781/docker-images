@@ -24,6 +24,10 @@ DB users:
 * sys/oracle
 * system/oracle
 
+Variable:
+* ORACLE_SID=orcl
+* CHARACTERSET=ZHS16GBK
+
 Optionally you can map dpdump folder to easy upload dumps:
 ```sh
 docker run --privileged --name oracle11g -p 1521:1521 -v <install_folder>:/install -v <local_dpdump>:/datapump <image-id>
