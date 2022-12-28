@@ -35,4 +35,3 @@ if [ "$(df -Pk /dev/shm | tail -n 1 | awk '{print $2}')" -lt 0 ]; then
 fi
 
 createDB
-setDatapumpDir
