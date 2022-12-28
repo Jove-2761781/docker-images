@@ -14,7 +14,7 @@ ENV ORACLE_BASE=/u01/app/oracle \
     CHARACTERSET=ZHS16GBK
 
 ADD assets /assets
-RUN chmod -R 755 /assets && /assets/setupSystemEnv.sh
+RUN chmod -R 777 /assets && /assets/setupSystemEnv.sh
 
 EXPOSE 1521
 EXPOSE 8080

@@ -35,11 +35,6 @@ EOF
    lsnrctl stop
 }
 
-modify_dbcaRSP () {
-	sed -i "s|#ORACLE_SID#|$ORACLE_SID|" /assets/dbca.rsp
-	sed -i "s|#CHARACTERSET#|$CHARACTERSET|" /assets/dbca.rsp
-}
-
 startDB () {
 	echo_yellow "Starting listener..."
 	lsnrctl start | while read line; do echo -e "lsnrctl: $line"; done
@@ -60,49 +55,18 @@ startDB () {
 	done
 }
 
-createDB () {
-	echo_yellow "Database does not exist. Creating database..."
-	date "+%F %T"
-	echo "START NETCA"
-	netca -silent -responsefile /install/database/response/netca.rsp
-	echo_green "Listener created."
-	echo "START DBCA"
-	dbca -silent -createDatabase -responseFile /assets/dbca.rsp
-	echo_green "Database created."
-	date "+%F %T"
-	setDatapumpDir
-}
-
-setDatapumpDir () {
-	echo_green "Changing datapump dir to /datapump"
-	sqlplus / as sysdba <<-EOF |
-		create or replace directory data_pump_dir as '/datapump';
-		exit;
-	EOF
-	while read line; do echo -e "sqlplus: $line"; done
-}
-
 
 # MAIN
 # Set SIGTERM SIGINT handler
 trap _term SIGTERM 
 trap _int SIGINT
 
-# Check whether container has enough memory
-echo "Checking shared memory..."
-if [ "$(df -Pk /dev/shm | tail -n 1 | awk '{print $2}')" -lt 0 ]; then
-   echo "Error: The system doesn't have enough memory allocated."
-   exit 1
-fi
-
 monitor $alert_log alertlog &
 MON_ALERT_PID=$!
 
-if [ ! -f $spfile ]; then
-  modify_dbcaRSP
-  createDB
-else
-  startDB
+if [ $(ps -ef | grep [o]ra_ | wc -l) -lt 1 ]; then
+   echo_yellow "Instance is not runing, starting now!"
+   startDB
 fi
 
 wait $MON_ALERT_PID
