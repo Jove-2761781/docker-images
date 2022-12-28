@@ -6,7 +6,6 @@ source /assets/colorecho
 source ~/.bashrc
 
 alert_log="$ORACLE_BASE/diag/rdbms/$ORACLE_SID/$ORACLE_SID/trace/alert_$ORACLE_SID.log"
-spfile=$ORACLE_HOME/dbs/spfile$ORACLE_SID.ora
 
 # monitor $logfile
 monitor () {
